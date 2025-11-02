@@ -2,44 +2,42 @@ import java.util.*;
 import java.lang.*;
 import java.io.*;
 
-// The main method must be in a class named "Main".
 class Main {
-    public static void main(String[] args) {
-        ArrayList<Integer> arr = new ArrayList<Integer>();
-        Scanner sc = new Scanner(System.in);
+    public static void main(String[] args)throws Exception{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
         StringBuilder sb = new StringBuilder();
-        
-        int n = sc.nextInt(), cnt, size;
-        String s;
-        
+        int n = Integer.parseInt(st.nextToken());
+        int num, idx=1;
+
+        int[] stack = new int[n+1];
         for(int i=0; i<n; i++){
-            s = sc.next();
-            size = arr.size();
-            switch (s) {
+            st = new StringTokenizer(br.readLine());
+            String order = st.nextToken();
+            switch (order) {
                 case "push":
-                    cnt = sc.nextInt();
-                    arr.add(cnt);
+                    num = Integer.parseInt(st.nextToken());
+                    stack[idx++] = num;
                     break;
                 case "pop":
-                    if(size != 0){
-                        sb.append(arr.remove(size-1)+"\n");
-                    }else
+                    if(idx == 1){
                         sb.append("-1\n");
+                    }else{
+                        sb.append(stack[--idx]).append("\n");
+                    }
                     break;
                 case "size":
-                    sb.append(size+"\n");
+                    sb.append(idx-1).append("\n"); //
                     break;
                 case "empty":
-                    if(size == 0)
-                        sb.append(1+"\n");
-                    else
-                        sb.append(0+"\n");
+                    sb.append((idx == 1)?1:0).append("\n");
                     break;
                 case "top":
-                    if(size != 0){
-                        sb.append(arr.get(size-1)+"\n");
-                    }else
-                        sb.append("-1"+"\n");
+                    if(idx == 1){
+                        sb.append("-1\n");
+                    }else{
+                        sb.append(stack[idx-1]).append("\n");
+                    }
                     break;
             }
         }

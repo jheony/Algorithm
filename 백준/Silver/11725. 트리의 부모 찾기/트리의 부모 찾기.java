@@ -1,53 +1,52 @@
-import java.util.*;
-import java.lang.*;
-import java.io.*;
 
-class Main {
-    static int N;
-    static List<List<Integer>> list;
-    static int[] parents;
-    static boolean[] visited;
-   
-    public static void main(String[] args) throws Exception {
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static int x, y, N;
+    static boolean[] visit;         // 방문 여부 체크
+    static  int[] parent;           // 부모 노드 체크
+    static ArrayList<ArrayList<Integer>> arr; // 트리를 저장할 리스트
+
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        N = Integer.parseInt(st.nextToken());
-        parents = new int[N+1];
-        visited = new boolean[N+1];
-       
-        list = new ArrayList<>();
+        StringTokenizer st;
+        N = Integer.parseInt(br.readLine());
+        visit = new boolean[N+1];
+        parent = new int[N+1];
+        arr = new ArrayList<>();
+
+        // 트리 생성
         for(int i=0; i<=N; i++){
-            list.add(new ArrayList<>());
+            arr.add(new ArrayList<>());
         }
-       
-        for(int i=0; i<N-1; i++){
+
+        // 트리 값 설정
+        for(int j=0; j<N-1; j++){
             st = new StringTokenizer(br.readLine());
-            int n1 = Integer.parseInt(st.nextToken());
-            int n2 = Integer.parseInt(st.nextToken());
-            list.get(n1).add(n2);
-            list.get(n2).add(n1);
+            x = Integer.parseInt(st.nextToken());
+            y = Integer.parseInt(st.nextToken());
+            // 각 노드에 서로 연결
+            arr.get(x).add(y);
+            arr.get(y).add(x);
         }
-       
-        find(1);
-       
-        for(int i=2; i<=N; i++){
-            System.out.println(parents[i]);
+
+        // 부모 찾기
+        DFS(1);
+        // 출력
+        for(int i=2; i<parent.length; i++){
+            System.out.println(parent[i]);
         }
     }
+    public static void DFS(int val){
+        // 방문 체크
+        visit[val] = true;
 
-    public static void find(int currentNode){
-        Queue<Integer> q = new LinkedList<>();
-        q.add(currentNode);
-       
-        visited[currentNode] = true;
-        while (!q.isEmpty()) {
-            int n = q.poll();
-            for(int node:list.get(n)){
-                if(!visited[node]){
-                    visited[node] = true;
-                    parents[node] = n;
-                    q.add(node);
-                }
+        // 각 노드 순회
+        for(int i: arr.get(val)){
+            if(!visit[i]){
+                DFS(i);
+                parent[i] = val;
             }
         }
     }

@@ -42,6 +42,9 @@ class Main {
         for(int i=1; i<=n; i++){
             st = new StringTokenizer(br.readLine());
             for(int j=1; j<=n; j++){
+                if(i == j){
+                    break;
+                }
                 x = Integer.parseInt(st.nextToken());
                 if(x == 1){
                     union(i, j);

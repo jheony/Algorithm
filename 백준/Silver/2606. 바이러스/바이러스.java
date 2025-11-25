@@ -3,36 +3,42 @@ import java.lang.*;
 import java.io.*;
 
 class Main {
-    static int node, line, x, y, cnt=0;
-    static boolean[] check;
-    static int[][] arr;
+    static int n, m, cnt=0;
+    static List<Integer>[] adj;
+    static boolean visited[];
     
-    public static void main(String[] args)throws Exception {
+    public static void main(String[] args) throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
-        node = Integer.parseInt(br.readLine());
-        line = Integer.parseInt(br.readLine());
         
-        arr = new int[node+1][node+1];
-        check = new boolean[node+1];
-        for(int i=0; i<line; i++){
-            st = new StringTokenizer(br.readLine());
-            x = Integer.parseInt(st.nextToken());
-            y = Integer.parseInt(st.nextToken());
-            
-            arr[x][y] = arr[y][x] = 1;
-        }
-        virus(1);
+        n = Integer.parseInt(br.readLine());
+        m = Integer.parseInt(br.readLine());
 
-        System.out.print(cnt-1);
+        adj = new ArrayList[n+1];
+        visited = new boolean[n+1];
+        for(int i=0; i<=n; i++){
+            adj[i] = new ArrayList<>();
+        }
+
+        for(int j=0; j<m; j++){
+            st = new StringTokenizer(br.readLine());
+            int x = Integer.parseInt(st.nextToken());
+            int y = Integer.parseInt(st.nextToken());
+
+            adj[x].add(y);
+            adj[y].add(x);
+        }
+        dfs(1);
+        System.out.println(cnt-1);
     }
-    public static void virus(int start){
-        check[start] = true;
+    
+    static void dfs(int x){
+        visited[x] = true;
         cnt++;
-        
-        for(int i=0; i<=node; i++){
-            if(arr[start][i] == 1 && !check[i])
-                virus(i);
+        for(int i: adj[x]){
+            if(!visited[i]){
+                dfs(i);
+            }
         }
     }
 }

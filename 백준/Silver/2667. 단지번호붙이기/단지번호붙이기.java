@@ -9,16 +9,21 @@ class Main {
     
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        
         n = Integer.parseInt(br.readLine());
         arr = new char[n][n];
         visited = new boolean[n][n];
+        
         for (int i=0; i<n; i++){
             arr[i] = br.readLine().toCharArray(); 
         }
+
+        // 각 단지 내 집의 수
         List<Integer> homeCnt = new ArrayList<>();
         
         for (int i=0; i<n; i++){
             for(int j=0; j<n; j++){
+                // 집이 있는 곳이며, 방문하지 않은 곳
                 if(arr[i][j] == '1' && !visited[i][j]){
                     cnt=0;
                     dfs(i, j);

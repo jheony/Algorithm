@@ -22,22 +22,24 @@ class Main {
             boxList.add(Integer.parseInt(st.nextToken()));
         }
 
-        Collections.sort(craneList, Collections.reverseOrder());
-        
+        // 내림차순으로 정렬
+        Collections.sort(craneList, Collections.reverseOrder());        
         Collections.sort(boxList, Collections.reverseOrder());
 
+        // 가장 센 크레인이 가장 무거운 짐 못들면 -1
         if(craneList.get(0) < boxList.get(0)){
             time = -1;
         }else{
             while (!boxList.isEmpty()) {
-                for(int i=0; i<n; i++){
-                    for(int j=0; j<boxList.size(); j++){
-                        if(craneList.get(i) >= boxList.get(j)){
-                            boxList.remove(j);
-                            break;
+                for(int i=0; i<n; i++){    // 크레인 순회
+                    for(int j=0; j<boxList.size(); j++){    // 짐 순회
+                        if(craneList.get(i) >= boxList.get(j)){    // 짐 들 수 있으면
+                            boxList.remove(j);    // 리스트에서 짐 삭제
+                            break;    // 짐 순회 종료
                         }
                     }
                 }
+                // 모든 크레인 돌면 시간 증가
                 time++;
             }
         }
